@@ -7,14 +7,21 @@ import numpy as np
 
 app = Flask(__name__)
 
+def safe_float(val):
+    try:
+        return float(val.replace(',', '.'))
+    except (ValueError, AttributeError):
+        return 0.0
+
+
 def clean_data(form_data):
     Pregnencies = int(form_data.get('Pregnancies'))
     Glucose = int( form_data.get('Glucose'))
     BloodPressure = int(form_data.get('BloodPressure'))
     SkinThickness = int(form_data.get('SkinThickness'))
     Insulin = int(form_data.get('Insulin'))
-    BMI = float(form_data.get('BMI'))
-    DiabetesPedigreeFunction = float(form_data.get('DiabetesPedigreeFunction'))
+    BMI = safe_float(form_data.get('BMI'))
+    DiabetesPedigreeFunction = safe_float(form_data.get('DiabetesPedigreeFunction'))
     Age = int(form_data.get('Age'))
     cleaned_data = {
         'Pregnancies': [Pregnencies],
